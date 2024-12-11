@@ -1,6 +1,77 @@
-<h1> {{ form_type}} new post </h1>
-<form method="POST" action=".">
-    {% csrf_token %}
-    {{form.as_p}}
-    <button type="submit">{{ form_type}} Post </button>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Post</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #ede8f5; /* Light purple background */
+            font-family: 'Arial', sans-serif;
+        }
+        .container {
+            max-width: 700px;
+            margin-top: 50px;
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #adbbda; /* Soft blue-gray background for card */
+            padding: 30px;
+        }
+        h1 {
+            font-size: 2rem;
+            color: #3d52a0; /* Darker blue for the heading */
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #3d52a0; /* Dark blue button */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 1rem;
+        }
+        button:hover {
+            background-color: #7091e6; /* Light blue hover effect */
+        }
+        .form-control {
+            border-radius: 5px;
+            background-color: #ffffff; /* White background for input fields */
+            border: 1px solid #8697c4; /* Light gray border for form fields */
+        }
+        .form-label {
+            color: #3d52a0; /* Darker blue for labels */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Create New Post</h1>
+            <form method="POST" action=".">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="title" class="form-label">Title</label>
+                    {{ form.title }}
+                </div>
+
+                <div class="form-group">
+                    <label for="content" class="form-label">Content</label>
+                    {{ form.content }}
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg">Create Post</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

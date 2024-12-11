@@ -1,2 +1,64 @@
-<h1>{{blog_detail.title}} details </h1>
-{{blog_detail.content}}
+{% extends 'blog/base.html' %}
+
+{% block content %}
+<div class="post-detail-container">
+    <h1>{{ blog_detail.title }}</h1>
+    <p class="post-date">Published on: {{ blog_detail.date_created|date:"F d, Y" }}</p>
+    <div class="post-content">
+        <p>{{ blog_detail.content }}</p>
+    </div>
+    <div class="actions">
+        <button id="like-btn" data-id="{{ blog_detail.id }}" class="like-dislike-btn">👍 {{ blog_detail.likes }}</button>
+        <button id="dislike-btn" data-id="{{ blog_detail.id }}" class="like-dislike-btn">👎 {{ blog_detail.dislikes }}</button>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Keep your previous styles and add these modifications */
+    .like-dislike-btn {
+        color: #ffffff;
+        background-color: #7091e6;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .like-dislike-btn:hover {
+        background-color: #3d52a0;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+    const likeBtn = document.getElementById('like-btn');
+
+    likeBtn.addEventListener('click', () => {
+        const postId = likeBtn.getAttribute('data-id');
+        fetch(`/${postId}/like/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}',  // Ensure CSRF token is available
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.likes !== undefined) {
+                likeBtn.innerHTML = `👍 ${data.likes}`;
+            } else {
+                console.error('Failed to update likes:', data.error || 'Unknown error');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+});
+
+</script>
+{% endblock %}
